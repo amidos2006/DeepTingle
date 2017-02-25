@@ -452,7 +452,7 @@
     var reverseDic = {};
     var dic = {};
     //Number -> Word
-    client.open('GET', 'Gabb_data/reverseDic.txt');
+    client.open('GET', 'Gabb_Data/reverseDic.txt');
     client.onreadystatechange = function() {
         var lines = client.responseText.split('\n');
         for (var i=0; i<lines.length; i++){
