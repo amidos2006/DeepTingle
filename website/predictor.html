@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<style>
+    
+    .demo-card-wide {
+      width: 90%;
+      padding: 10px;
+      margin: auto;  
+
+    }
+    
+    body{
+        background-color:beige;
+        padding:10px;
+    }
+    
+    #maindiv{
+        width: 80%;
+          margin-left:auto;
+        margin-right:auto;
+        text-align: center;
+    }
+    
+    #descriptioncard {
+        color:#fff;
+
+    }
+
+    #tingleright {
+      color: #fff;
+      background:
+        url('dino-1-fulldream.jpg') center / cover no-repeat  ;
+      height: 500px;
+    }
+</style>
+    
+<head>
+    <title>Testing Deep Tingle</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css" /> 
+   
+</head>
+    
+<body>
+    <div id="maindiv">
+        <div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="descriptioncard">
+          <!--div id="description"-->
+              <div class="mdl-card__title mdl-card--colored">
+                <h2 class="mdl-card__title-text">Tingle Prediction</h2>
+              </div>
+              <div class="mdl-card__supporting-text">
+                This is a placeholder text for the project's description: We use neural networks to provide sugestions on what to write and etc.
+              </div>
+            <!--/div-->
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" onclick="hidetop()">
+              <i class="material-icons">close</i>
+            </button>
+        </div>
+
+        <form action="#">
+            <div class="content-grid mdl-grid" id="leftdiv">
+                <div class="mdl-cell" id="cellleft">
+                    <div class="mdl-textfield mdl-js-textfield">
+                        <textarea class="mdl-textfield__input" :value.sync="inputText" type="text" rows= "3" id="inputText" oninput="updateText()" ></textarea>
+                        <label class="mdl-textfield__label" for="inputText">Text lines...</label>
+                    </div>
+                </div>
+
+                <div class="mdl-cell" id="cellright">
+                    <div>
+                         <ul class="demo-list-item mdl-list" id="listofsugestions">
+                          <!--li class="mdl-list__item">
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <textarea class="mdl-textfield__input" type="text" rows= "1" id="sample5" ></textarea>
+                                <label class="mdl-textfield__label" for="sample5">Button</label>
+                            </div>
+                          </li-->
+
+                        </ul>
+                     </div>
+                </div>
+
+                <div class="mdl-cell">
+                     <div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="tingleright"> </div>
+                </div>
+            </div>
+       
+        </form>
+    
+    </div>
+   
+    <!--button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="predict()">Predict</button-->
+</body>
+<script src="dist/keras.js"></script>
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script>
+    var inputText ="?";
+    
+    function hidetop(arr) {
+        document.getElementById('descriptioncard').style.display='none';
+    }
+    
+    
+    function cleanInput(input) {
+        var modifiedString = input.substring(0);
+        modifiedString = modifiedString.toLowerCase();
+        modifiedString = modifiedString.replace(/\t/g, " ");
+        modifiedString = modifiedString.replace(/\n/g, " ");
+        modifiedString = modifiedString.replace(/!/g, " . ");
+        modifiedString = modifiedString.replace(/"/g, " ");
+        modifiedString = modifiedString.replace(/#/g, " "); 
+        modifiedString = modifiedString.replace(/'/g, "'"); 
+        modifiedString = modifiedString.replace(/\(/g, " "); 
+        modifiedString = modifiedString.replace(/\)/g, " "); 
+        modifiedString = modifiedString.replace(/,/g, " , ");
+        modifiedString = modifiedString.replace(/-/g, " "); 
+        modifiedString = modifiedString.replace(/\./g, " . "); 
+        modifiedString = modifiedString.replace(/\//g, " ");
+        modifiedString = modifiedString.replace(/:/g, " ");
+        modifiedString = modifiedString.replace(/;/g, " ; "); 
+        modifiedString = modifiedString.replace(/\?/g, " ? ");
+        modifiedString = modifiedString.replace(/–/g, " ");
+        modifiedString = modifiedString.replace(/—/g, " ");
+        modifiedString = modifiedString.replace(/‘/g, "'"); 
+        modifiedString = modifiedString.replace(/…/g, " . ");
+        modifiedString = modifiedString.replace(/ç/g, "c");
+        modifiedString = modifiedString.replace(/é/g, "e");
+        modifiedString = modifiedString.trim();
+        var newString = modifiedString.replace(/  /g," ");
+        while(!(newString === modifiedString)) {
+            modifiedString = newString;
+            newString = modifiedString.replace(/  /g," ");
+        }
+            
+        return modifiedString;
+    }
+    
+    var INPUT_SIZE = 10;
+    
+    function updateText(arr) { 
+        var inputText = document.getElementById('inputText').value;
+        if(inputText.charAt(inputText.length -1) == ' ' && modelReady && dicReady){
+            //console.log(inputText);
+            //console.log("test ");
+            //console.log(dic["temperance"]);
+            //console.log(dic["dick"]);
+            const inputData = {
+            'input': new Float32Array(INPUT_SIZE)
+            };
+            
+            
+            //clean input and split it using spaces
+            var splitted = cleanInput(inputText).split(" ");
+            var index = 0;
+            
+            var i=0;
+            var last = 0;
+            if(splitted.length < INPUT_SIZE) {
+                last = 0;
+                for(i = 0; i < INPUT_SIZE - splitted.length; i++) {
+                    inputData.input[i] = 0;
+                    last++
+                }
+                for(i = 0; i < splitted.length; i++) {
+                    if(dic[splitted[i]] === undefined)
+                        inputData.input[last] = 0;
+                    else
+                        inputData.input[last] = dic[splitted[i]];
+                    last++;
+                }
+            } else {
+                var last = 0;
+                for(i = splitted.length -1 - INPUT_SIZE; i < splitted.length; i++) {
+                    console.log(splitted[i] +" "+index);
+                    if(dic[splitted[i]] === undefined)
+                        inputData.input[last] = 0;
+                    else
+                        inputData.input[last] = dic[splitted[i]];
+                    last++;
+                }
+            }
+
+            //console.log(inputData);
+            model.predict(inputData).then(outputData => {
+                //deleting first one
+                var index = getMaxIndex(outputData.output);
+                var indexes = getMaxIndexes(outputData.output, 3);
+                //data.push(index);
+                
+                //console.log(reverseDic[index]);
+                //console.log(index);
+                //console.log(outputData.output);
+                clearList();
+
+                for(var i = 0; i < indexes.length; i++) {
+                    var listitem = document.createElement('li');
+                    listitem.className="mdl-list__item";
+                    var button = document.createElement('button');
+                    var textNode = document.createTextNode(reverseDic[indexes[i]]);
+                    button.appendChild(textNode);
+                    button.className = 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored';
+                    button.addEventListener("click",clickedOnSugestion);
+                    //button.onclick = "clickedOnSugestion(this)";
+                    //componentHandler.upgradeElement(button);
+                    listitem.appendChild(button);
+                    document.getElementById('listofsugestions').appendChild(listitem);
+                 }
+            }).catch(err => {
+                console.log(err);
+            });
+            
+            
+           
+            //get sugestions
+            
+            //addlist
+            
+        } else{
+            console.log("Not Ready");
+        }
+    }
+    
+    function clearList() {
+        //clear list
+        var list = document.getElementById('listofsugestions');
+        while(list.firstChild) {
+            list.removeChild(list.firstChild);
+        }
+    }
+    
+    function clickedOnSugestion(event) {
+        if (!event) {
+            event = window.event; 
+        };
+
+        //console.log(event.srcElement.innerHTML);
+        var word = event.srcElement.innerHTML;
+        clearList();
+        //console.log(document.getElementById('inputText'));
+        document.getElementById('inputText').value = document.getElementById('inputText').value+word+" ";
+        updateText();
+        
+    }
+    //document.getElementById('container').appendChild(button);
+
+
+    function inputChanged(arr) {
+        console.log("changed");
+    }
+    var dicReady = false;
+    var modelReady = false;
+    
+    function getMaxIndex(arr){
+        var maxValue = arr[0];
+        var maxIndex = 0;
+        for(var i=1; i<arr.length; i++){
+            if(arr[i] > maxValue){
+                maxValue = arr[i];
+                maxIndex = i;
+            }
+        }
+        return maxIndex;
+    }
+    
+    function getMaxIndexes(arr, quant){
+        var indexes = new Float32Array(quant);
+        var maxValue = arr[0];
+        var maxIndex = 0;
+        var lowerValue = 1234561234;
+        var indexLower = -1;
+        for(var i = 0; i < quant;i++) {
+            indexes[i] = i;
+            if(lowerValue > arr[i]) {
+                lowerValue = arr[i];
+                indexLower = i;
+            }
+        }
+        for(var i=quant; i<arr.length; i++) {
+            if(arr[i] > lowerValue) {
+                indexes[indexLower] = i;
+                
+                lowerValue = arr[indexes[0]];
+                indexLower = 0;
+                for(var j =1; j < quant; j++) {
+                    if(arr[indexes[j]] < lowerValue) {
+                        lowerValue = arr[indexes[j]];
+                        indexLower = j;
+                    }
+                }
+                
+            }
+            
+            
+        }
+        
+        return indexes;
+    }
+    
+    var client = new XMLHttpRequest();
+    var reverseDic = {};
+    var dic = {};
+    //Number -> Word
+    client.open('GET', 'Gabb_Data/reverseDic.txt');
+    client.onreadystatechange = function() {
+        var lines = client.responseText.split('\n');
+        for (var i=0; i<lines.length; i++){
+            var l = lines[i].split(',');
+            if(l.length > 1){
+                reverseDic[parseInt(l[0])] = l[1].trim();
+                dic[l[1].trim()] = parseInt(l[0]);
+            }
+        }
+        dicReady = true;
+        console.log("Dictionary Ready");
+    }
+    var data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const model = new KerasJS.Model({
+        filepaths: {
+            model: 'Gabb_Data/model.json',
+            weights: 'Gabb_Data/model_weights.buf',
+            metadata: 'Gabb_Data/model_metadata.json'
+        },
+        gpu: true
+    });
+    client.send();
+    model.ready().then(() => {
+        modelReady = true;
+        console.log("Model Ready");
+    }).catch(err => {
+        console.log(err);
+    });
+
+    /*function predict(){
+        if(modelReady && dicReady){
+            const inputData = {
+            'input': new Float32Array(data)
+            };
+            model.predict(inputData).then(outputData => {
+                var index = getMaxIndex(outputData.output);
+                data.push(index);
+                data.splice(0, 1);
+                console.log(reverseDic[index]);
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+        else{
+            console.log("Not Ready");
+        }
+    }*/
+</script>
+</html>
