@@ -155,8 +155,8 @@
 <script>
     var inputText ="?";
     var SUBSTITUTE_ONLY_IF_FIRST_CHAR_MATCH = false;
-    var INPUT_SIZE = 10;
-    
+    var INPUT_SIZE = 5;
+    var data = [0, 0, 0, 0, 0];
     function hidetop(arr) {
         document.getElementById('descriptioncard').style.display='none';
     }
@@ -465,7 +465,7 @@
         dicReady = true;
         console.log("Dictionary Ready");
     }
-    var data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    
     const model = new KerasJS.Model({
         filepaths: {
             model: 'newmodel/model.json',
