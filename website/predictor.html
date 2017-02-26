@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html>
 <style>
-    
     .demo-card-wide {
-      width: 90%;
+      width: 150%;
       padding: 10px;
       margin: auto;  
 
+    }
+    
+    mark{
+        background: orange;
+        color: black;
     }
     
     body{
@@ -14,18 +18,46 @@
         padding:10px;
     }
     
+    #p1main {
+        padding-top:10px;
+        margin-right: auto;
+        margin-left: auto;
+         text-align: center;
+    }
+    
     #maindiv{
         width: 80%;
           margin-left:auto;
         margin-right:auto;
         text-align: center;
+        display:none;
     }
     
     #descriptioncard {
         color:#fff;
-
+        width: 90%;
     }
 
+    .mdl-card__title.mdl-card--colored {
+         text-align: center;
+        margin-left:auto;
+        margin-right:auto;
+    }
+    
+    #cellleft {
+        width:65%;
+    }
+    
+    #cellright {
+        width:20%;
+    }
+    
+    
+    #mlinputText {
+        width:70%;
+    }
+    
+    
     #tingleright {
       color: #fff;
       background:
@@ -37,71 +69,113 @@
 <head>
     <title>Testing Deep Tingle</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css" /> 
-   
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
     
 <body>
-    <div id="maindiv">
-        <div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="descriptioncard">
-          <!--div id="description"-->
-              <div class="mdl-card__title mdl-card--colored">
-                <h2 class="mdl-card__title-text">Tingle Prediction</h2>
-              </div>
-              <div class="mdl-card__supporting-text">
-                This is a placeholder text for the project's description: We use neural networks to provide sugestions on what to write and etc.
-              </div>
-            <!--/div-->
-            <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" onclick="hidetop()">
-              <i class="material-icons">close</i>
-            </button>
-        </div>
-
-        <form action="#">
-            <div class="content-grid mdl-grid" id="leftdiv">
-                <div class="mdl-cell" id="cellleft">
-                    <div class="mdl-textfield mdl-js-textfield">
-                        <textarea class="mdl-textfield__input" :value.sync="inputText" type="text" rows= "3" id="inputText" oninput="updateText()" ></textarea>
-                        <label class="mdl-textfield__label" for="inputText">Text lines...</label>
-                    </div>
-                </div>
-
-                <div class="mdl-cell" id="cellright">
-                    <div>
-                         <ul class="demo-list-item mdl-list" id="listofsugestions">
-                          <!--li class="mdl-list__item">
-                            <div class="mdl-textfield mdl-js-textfield">
-                                <textarea class="mdl-textfield__input" type="text" rows= "1" id="sample5" ></textarea>
-                                <label class="mdl-textfield__label" for="sample5">Button</label>
-                            </div>
-                          </li-->
-
-                        </ul>
-                     </div>
-                </div>
-
-                <div class="mdl-cell">
-                     <div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="tingleright"> </div>
-                </div>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header mdl-layout__header--waterfall portfolio-header">
+            <div class="mdl-layout__header-row portfolio-logo-row">
+                <span class="mdl-layout__title">
+                    <div class="portfolio-logo"></div>
+                    <span class="mdl-layout__title">Deep Tingle</span>
+                </span>
             </div>
-       
-        </form>
-    
+            <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
+                <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+                    <a class="mdl-navigation__link" href="predictor.html">Predictive Tingle</a>
+                    <a class="mdl-navigation__link  is-active" href="translator.html">Tingle Translator</a>
+                    <a class="mdl-navigation__link" href="about.html">About</a>
+                    <a class="mdl-navigation__link" href="contact.html">Contact</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+            <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+                <a class="mdl-navigation__link is-active" href="predictor.html">Predictive Tingle</a>
+                <a class="mdl-navigation__link" href="translator.html">Tingle Translator</a>
+                <a class="mdl-navigation__link" href="about.html">About</a>
+                <a class="mdl-navigation__link" href="contact.html">Contact</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+            <div id="p1main">
+                <div id="p1" class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
+                </div>
+            <div id="maindiv">
+                <div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="descriptioncard">
+                  <!--div id="description"-->
+                      <div class="mdl-card__title mdl-card--colored">
+                        <h2 class="mdl-card__title-text">Tingle Prediction</h2>
+                      </div>
+                      <div class="mdl-card__supporting-text">
+                          This is a placeholder text for the project's description: We use neural networks to provide sugestions on what to write and etc.
+                          <br><br>
+                          If the last word you typed is not in the Tingle-nary, Predictive Tingle will automatically change it to the nearest Tingle word. If you do not want this to happen (for example, for character names and places), add an asterisc before the name (example: *New *York).
+                          <br><br>
+                          As you type, sugestions will appear on the purple box. Press enter to accept the suggestion, or continue typing to ignore.
+                      </div>
+                    <!--/div-->
+                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" onclick="hidetop()">
+                      <i class="material-icons">close</i>
+                    </button>
+                </div>
+
+                <form action="#">
+                    <div class="content-grid mdl-grid" id="leftdiv">
+                        <div class="mdl-cell" id="cellleft">
+                            <div class="mdl-textfield mdl-js-textfield" id="mlinputText">
+                                <textarea class="mdl-textfield__input" :value.sync="inputText" type="text" rows= "6" id="inputText" oninput="updateText()" ></textarea>
+                                <label class="mdl-textfield__label" for="inputText">Write here...</label>
+                            </div>
+                        </div>
+
+                        <div class="mdl-cell" id="cellright">
+                            <div>
+                                 <ul class="demo-list-item mdl-list" id="listofsugestions">
+                                  <!--li class="mdl-list__item">
+                                    <div class="mdl-textfield mdl-js-textfield">
+                                        <textarea class="mdl-textfield__input" type="text" rows= "1" id="sample5" ></textarea>
+                                        <label class="mdl-textfield__label" for="sample5">Button</label>
+                                    </div>
+                                  </li-->
+
+                                </ul>
+                             </div>
+                        </div>
+
+
+                    </div>
+
+                </form>
+
+                <div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="tingleright"> </div>
+           </div> 
+        </main>
     </div>
    
-    <!--button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="predict()">Predict</button-->
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </body>
 <script src="dist/keras.js"></script>
-<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
 <script>
     var inputText ="?";
+    var SUBSTITUTE_ONLY_IF_FIRST_CHAR_MATCH = false;
+    var INPUT_SIZE = 5;
+    var data = [0, 0, 0, 0, 0];
+    var dicReady = false;
+    var modelReady = false;
+    var reverseDic = {};
+    var dic = {};
     
     function hidetop(arr) {
         document.getElementById('descriptioncard').style.display='none';
     }
-    
     
     function cleanInput(input) {
         var modifiedString = input.substring(0);
@@ -137,11 +211,81 @@
         return modifiedString;
     }
     
-    var INPUT_SIZE = 5;
+    //https://gist.github.com/andrei-m/982927
+    function levenshtein(a, b) {
+      if (a.length === 0) return b.length;
+      if (b.length === 0) return a.length;
+      let tmp, i, j, prev, val, row;
+      // swap to save some memory O(min(a,b)) instead of O(a)
+      if (a.length > b.length) {
+        tmp = a;
+        a = b;
+        b = tmp;
+      }
+
+      row = Array(a.length + 1)
+      // init the row
+      for (i = 0; i <= a.length; i++) {
+        row[i] = i;
+      }
+
+      // fill in the rest
+      for (i = 1; i <= b.length; i++) {
+        prev = i;
+        for (j = 1; j <= a.length; j++) {
+          if (b[i - 1] === a[j - 1]) {
+            val = row[j - 1]; // match
+          } else {
+            val = Math.min(row[j - 1] + 1, // substitution
+                  Math.min(prev + 1,     // insertion
+                           row[j] + 1));  // deletion
+          }
+          row[j - 1] = prev;
+          prev = val;
+        }
+        row[a.length] = prev;
+      }
+      return row[a.length];
+    }
     
-    function updateText(arr) { 
+    
+    
+    /*
+    Substitute a word for the closest one in the dictionary
+    */
+    function substitute(word) {
+        //console.log(dic);
+        console.log(word+" _ "+dic[word]);
+        if(dic[word] === undefined && word.charAt(0) != '*') {
+            //var key = Object.keys(dic);
+            var closestWord = null;
+            var distance = 9999999;
+            var str="";
+            for(var key in dic) {
+                var dist = levenshtein(word,key);
+                if((SUBSTITUTE_ONLY_IF_FIRST_CHAR_MATCH && key.charAt(0) === word.charAt(0)) || !SUBSTITUTE_ONLY_IF_FIRST_CHAR_MATCH
+                   || closestWord === null){
+                    if(dist < distance || closestWord === null) {
+                        closestWord = key;
+                        distance = dist;
+                    }
+                }
+                //str += key + " "+levenshtein(word,key)+"\n";
+            }
+            return closestWord;
+            //console.log(str);
+        } else {
+            return word;
+        }
+    }
+    
+    function updateText(arr) {
         var inputText = document.getElementById('inputText').value;
-        if(inputText.charAt(inputText.length -1) == ' ' && modelReady && dicReady){
+        if(inputText.charAt(inputText.length -1) == '\n') {
+            console.log("Accepted suggestion");  
+            document.getElementById('inputText').value = document.getElementById('inputText').value.replace("\n","");
+            acceptSuggestion();
+        } else if(inputText.charAt(inputText.length -1) == ' ' && modelReady && dicReady){
             //console.log(inputText);
             //console.log("test ");
             //console.log(dic["temperance"]);
@@ -153,7 +297,10 @@
             
             //clean input and split it using spaces
             var splitted = cleanInput(inputText).split(" ");
-            var index = 0;
+            
+            var newWord = substitute(splitted[splitted.length - 1]);
+            substituteInTextArea(splitted[splitted.length - 1],newWord);
+            splitted[splitted.length - 1] = newWord;
             
             var i=0;
             var last = 0;
@@ -173,7 +320,7 @@
             } else {
                 var last = 0;
                 for(i = splitted.length -1 - INPUT_SIZE; i < splitted.length; i++) {
-                    console.log(splitted[i] +" "+index);
+                    //console.log(splitted[i]);
                     if(dic[splitted[i]] === undefined)
                         inputData.input[last] = 0;
                     else
@@ -184,29 +331,9 @@
 
             //console.log(inputData);
             model.predict(inputData).then(outputData => {
-                //deleting first one
-                var index = getMaxIndex(outputData.output);
-                var indexes = getMaxIndexes(outputData.output, 3);
-                //data.push(index);
+                offerSugestion(outputData,1);
                 
-                //console.log(reverseDic[index]);
-                //console.log(index);
-                //console.log(outputData.output);
-                clearList();
-
-                for(var i = 0; i < indexes.length; i++) {
-                    var listitem = document.createElement('li');
-                    listitem.className="mdl-list__item";
-                    var button = document.createElement('button');
-                    var textNode = document.createTextNode(reverseDic[indexes[i]]);
-                    button.appendChild(textNode);
-                    button.className = 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored';
-                    button.addEventListener("click",clickedOnSugestion);
-                    //button.onclick = "clickedOnSugestion(this)";
-                    //componentHandler.upgradeElement(button);
-                    listitem.appendChild(button);
-                    document.getElementById('listofsugestions').appendChild(listitem);
-                 }
+                
             }).catch(err => {
                 console.log(err);
             });
@@ -222,12 +349,45 @@
         }
     }
     
+    function offerSugestion(outputData, quant) {
+        //deleting first one
+        var index = getMaxIndex(outputData.output);
+        var indexes = getMaxIndexes(outputData.output, quant);
+        clearList();
+
+        for(var i = 0; i < indexes.length; i++) {
+            var listitem = document.createElement('li');
+            listitem.className="mdl-list__item";
+            var button = document.createElement('button');
+            var textNode = document.createTextNode(reverseDic[indexes[i]]);
+            button.appendChild(textNode);
+            button.className = 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored';
+            button.addEventListener("click",clickedOnSugestion);
+            //button.onclick = "clickedOnSugestion(this)";
+            //componentHandler.upgradeElement(button);
+            listitem.appendChild(button);
+            document.getElementById('listofsugestions').appendChild(listitem);
+         }
+    }
+    
+    function substituteInTextArea(previousWord, newWord) {
+        document.getElementById('inputText').value = document.getElementById('inputText').value.replace(previousWord, newWord);
+    }
+    
     function clearList() {
         //clear list
         var list = document.getElementById('listofsugestions');
         while(list.firstChild) {
             list.removeChild(list.firstChild);
         }
+    }
+    
+    function acceptSuggestion() {
+        var word = document.getElementById('listofsugestions').firstChild.firstChild.innerHTML;
+        console.log(word);
+        clearList();
+        console.log(word);
+        addTextWithWord(word);
     }
     
     function clickedOnSugestion(event) {
@@ -238,19 +398,22 @@
         //console.log(event.srcElement.innerHTML);
         var word = event.srcElement.innerHTML;
         clearList();
+        addTextWithWord(word);
+        
+    }
+    
+    function addTextWithWord(word) {
         //console.log(document.getElementById('inputText'));
         document.getElementById('inputText').value = document.getElementById('inputText').value+word+" ";
         updateText();
-        
     }
+    
     //document.getElementById('container').appendChild(button);
 
 
     function inputChanged(arr) {
         console.log("changed");
     }
-    var dicReady = false;
-    var modelReady = false;
     
     function getMaxIndex(arr){
         var maxValue = arr[0];
@@ -270,15 +433,15 @@
         var maxIndex = 0;
         var lowerValue = 1234561234;
         var indexLower = -1;
-        for(var i = 0; i < quant;i++) {
+        for(var i = 0; i < quant+1;i++) {
             indexes[i] = i;
-            if(lowerValue > arr[i]) {
+            if(i != 2 && lowerValue > arr[i]) {
                 lowerValue = arr[i];
                 indexLower = i;
             }
         }
         for(var i=quant; i<arr.length; i++) {
-            if(arr[i] > lowerValue) {
+            if(i != 2 && arr[i] > lowerValue) {
                 indexes[indexLower] = i;
                 
                 lowerValue = arr[indexes[0]];
@@ -298,9 +461,9 @@
         return indexes;
     }
     
+    
     var client = new XMLHttpRequest();
-    var reverseDic = {};
-    var dic = {};
+    
     //Number -> Word
     client.open('GET', 'Gabb_Data/reverseDic.txt');
     client.onreadystatechange = function() {
@@ -315,40 +478,25 @@
         dicReady = true;
         console.log("Dictionary Ready");
     }
-    var data = [0, 0, 0, 0, 0];
+    
     const model = new KerasJS.Model({
         filepaths: {
-            model: 'Gabb_Data/model.json',
-            weights: 'Gabb_Data/model_weights.buf',
-            metadata: 'Gabb_Data/model_metadata.json'
+            model: 'newmodel/model.json',
+            weights: 'newmodel/model_weights.buf',
+            metadata: 'newmodel/model_metadata.json'
         },
         gpu: true
     });
+    
     client.send();
+    
     model.ready().then(() => {
         modelReady = true;
         console.log("Model Ready");
+        document.getElementById('maindiv').style.display='block';
+        document.getElementById('p1').style.display='none';
     }).catch(err => {
         console.log(err);
     });
-
-    /*function predict(){
-        if(modelReady && dicReady){
-            const inputData = {
-            'input': new Float32Array(data)
-            };
-            model.predict(inputData).then(outputData => {
-                var index = getMaxIndex(outputData.output);
-                data.push(index);
-                data.splice(0, 1);
-                console.log(reverseDic[index]);
-            }).catch(err => {
-                console.log(err);
-            });
-        }
-        else{
-            console.log("Not Ready");
-        }
-    }*/
 </script>
 </html>
