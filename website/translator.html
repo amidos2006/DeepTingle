@@ -18,11 +18,19 @@
         padding:10px;
     }
     
+     #p1main {
+        padding-top:10px;
+        margin-right: auto;
+        margin-left: auto;
+         text-align: center;
+    }
+    
     #maindiv{
         width: 80%;
-        margin-left:auto;
+          margin-left:auto;
         margin-right:auto;
         text-align: center;
+        display:none;
     }
     
     #descriptioncard {
@@ -59,6 +67,30 @@
         url('dino-1-fulldream.jpg') center / cover no-repeat  ;
       height: 500px;
     }
+    
+     #tingleleft {
+      color: #fff;
+      background:
+        url('images/unicorn-dream.png') center / cover no-repeat  ;
+      height: 500px;
+    }
+    
+    .triangle-border {
+        border:5px solid blue;
+    }
+    
+    .tingledescription {
+        padding: 20px 10px;
+        text-align: center;
+        align-content: center;
+        margin:auto;
+        font-family: "Helvetica","Arial",sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 20px;
+    }
+    
+    
 </style>
     
 <head>
@@ -68,7 +100,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css" /> 
-   
+    <link rel="stylesheet" type="text/css" href="speech.css">
 </head>
     
 <body>
@@ -98,26 +130,49 @@
             </nav>
         </div>
         <main class="mdl-layout__content">
-            <div id="maindiv">
-            <div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="descriptioncard">
-              <!--div id="description"-->
-                  <div class="mdl-card__title mdl-card--colored">
-                    <h2 class="mdl-card__title-text">Tingle Translator</h2>
-                  </div>
-                  <div class="mdl-card__supporting-text">
-                      This is a placeholder text for the project's description: We use neural networks to provide sugestions on what to write and etc.
-                      <br><br>
-                      Copy your text below.
-                      <br><br>
-                      If the last word you typed is not in the Tingle-nary, Tinglefier will automatically change it to the nearest Tingle word. If you do not want this to happen (for example, for character names and places), add an asterisc before the name (example: *New *York).
-                  </div>
-                <!--/div-->
-                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" onclick="hidetop()">
-                  <i class="material-icons">close</i>
-                </button>
+            <div id="p1main">
+                <div id="p1" class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
             </div>
+            <div id="maindiv">
+                <div class="content-grid mdl-grid" id="maintop">
+                   <div class="mdl-cell mdl-cell--4-col">
+                        <div id="tingleleft"></div> 
+                    </div>
+                    <div class="mdl-cell mdl-cell--4-col">
+                         <div class="bubbleleft" >  
+                             <div class="tingledescription">
+                                
+                                <b>This is Tingle Translator</b>!
+                                 <br><br>
+                                 Copy your text below, and click on "Tinglefy" to make is as Tingle-ish as possible!
+                             </div>
+                        </div>
+                        
+                        <br>
+                        <br>
+                        
+                        <div class="bubbleright">
+                            <div class="tingledescription">
+                                If the words you typed are not in the Tingle-nary, Tinglefier will automatically change it to the nearest Tingle word. If you do not want this to happen (for example, for character names and places), add an asterisc before the name (example: *New *York).
+                               </div>
+                        </div>
+                        
+                        <br><br>
+                        
+                        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" onclick="hidetop()">
+                              <i class="material-icons">close</i>
+                            </button>
 
-            <form action="#">
+                    </div>
+                    
+                    
+                    <div class="mdl-cell mdl-cell--4-col">
+                        <div id="tingleright"></div> 
+                    </div>
+                 </div>
+                    
+                
+            <!--form action="#"-->
                 <div class="content-grid mdl-grid" id="leftdiv">
                     <div class="mdl-cell" id="cellleft">
                         <div class="mdl-textfield mdl-js-textfield" id="mlinputText">
@@ -133,7 +188,7 @@
 
                 </div>
 
-            </form>
+            <!--/form-->
 
             <!--div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="tingleright "> </div-->
          </div>
@@ -149,11 +204,12 @@
     var SUBSTITUTE_ONLY_IF_FIRST_CHAR_MATCH = false;
     var INPUT_SIZE = 10;
     var ignoredwords = ["is","are","there","was","were","can","should","will","I","he","she","they", "a",
-                       "at","in","on","my","yours","his","hers","they","his","her","their","your","mine"];
+                       "at","in","on","my","yours","his","hers","they","his","her","their","your","mine",
+                       "this","is", "i", "it", "that", "who", "which","but","but","the","an","and"];
     
     
     function hidetop(arr) {
-        document.getElementById('descriptioncard').style.display='none';
+        document.getElementById('maintop').style.display='none';
     }
     
     function test() {
@@ -239,8 +295,6 @@
     function substitute(word) {
         //console.log(dic);
         //console.log(word+" _ "+dic[word]);
-        
-        
         if(dic[word] === undefined && word.charAt(0) != '*') {
             //var key = Object.keys(dic);
             var closestWord = null;
@@ -248,12 +302,18 @@
             var str="";
             for(var key in dic) {
                 //console.log("key "+key);
-                if((SUBSTITUTE_ONLY_IF_FIRST_CHAR_MATCH && key.charAt(0) === word.charAt(0)) || !SUBSTITUTE_ONLY_IF_FIRST_CHAR_MATCH) {
+                if(closestWord == null) {
                     var dist = levenshtein(word,key);
-                    if(dist < distance || closestWord === null) {
-                        closestWord = key;
-                        //console.log(closestWord+"@");
-                        distance = dist;
+                    closestWord = key;
+                    distance = dist;
+                } else {
+                    if((SUBSTITUTE_ONLY_IF_FIRST_CHAR_MATCH && key.charAt(0) === word.charAt(0)) || !SUBSTITUTE_ONLY_IF_FIRST_CHAR_MATCH) {
+                        var dist = levenshtein(word,key);
+                        if(dist < distance) {
+                            closestWord = key;
+                            //console.log(closestWord+"@");
+                            distance = dist;
+                        }
                     }
                 }
                 //str += key + " "+levenshtein(word,key)+"\n";
@@ -266,6 +326,9 @@
     }
     
     function shouldIgnoreWord(word) {
+        if(word.charAt(0) == '*')
+            return true;
+        
         for(var i = 0; i < ignoredwords.length; i++) {
             if(ignoredwords[i] === word)
                 return true;
@@ -277,7 +340,7 @@
         console.log("?"+dic["cat"]);
         console.log("In translate");
         var inputText = document.getElementById('inputText').value;
-        if(modelReady && dicReady){
+        if(freqReady && embReady && dicReady){
             //console.log(inputText);
             //console.log("test ");
             //console.log(dic["temperance"]);
@@ -293,15 +356,18 @@
                 for(var i = 0; i < splitted.length; i++) {
                     if(dic[splitted[i]] === undefined) {
                         var newWord = substitute(splitted[i]);
-                        if(newWord === null) 
+                        if(newWord === null) {
+                             //console.log("New word is null "+splitted[i]+ " "+newWord);
                             continue;
-                        else {
+                        } else {
                             console.log(splitted[i]+" <turned> "+newWord);
                             substituteInTextArea(splitted[i],newWord);
+                            //console.log(splitted[i]+" "+newWord);
                             splitted[i] = newWord;
+                            //console.log(splitted[i]);
                         }
                     } else {
-                        console.log("Not changing "+splitted[i]+". index: "+dic[splitted[i]]);
+                        //console.log("Not changing "+splitted[i]+". index: "+dic[splitted[i]]);
                     }
                     
                 }
@@ -312,7 +378,7 @@
                 var lookedWords = {};
                 var contains = false;
                 for(var i = 0; i< splitted.length; i++) {
-                    console.log("lookedWords[splitted[i]] "+lookedWords[splitted[i]] +" freqwordsize "+freqWords.length);
+                    //console.log("lookedWords[splitted[i]] "+lookedWords[splitted[i]] +" freqwordsize "+freqWords.length);
                     if(lookedWords[splitted[i]] === undefined) {
                         lookedWords[splitted[i]] = true;
                         
@@ -327,7 +393,7 @@
                                 }
                             }
                             if(!contains) {
-                                console.log("Add "+splitted[i]);
+                                //console.log("Add "+splitted[i]);
                                 wordsNotTypical.push(splitted[i]);
                             }
                          }
@@ -339,7 +405,7 @@
                 for(var i = 0; i < wordsNotTypical.length; i++) {
                     var word = findClosestTypicalWord(wordsNotTypical[i]);
                     
-                    console.log("Substituting "+wordsNotTypical[i] +" by "+word);
+                    //console.log("Substituting "+wordsNotTypical[i] +" by "+word);
                     substituteAllInTextArea(wordsNotTypical[i],word);
                 }
                 
@@ -352,7 +418,7 @@
     
     function findClosestTypicalWord(word) {
         var closestWord = freqWords[0];
-        console.log("calculate now " + word);
+        //console.log("calculate now " + word);
         var dist = calcDistance(word, freqWords[0]);
         for(var i = 0; i < freqWords.length; i++) {
             var newDist = calcDistance(word, freqWords[i]);
@@ -369,8 +435,7 @@
         var ew1 = embedding[w1];
         var ew2 = embedding[w2];
         var dist = 0;
-        //console.log(ew1);
-        //console.log(ew2);
+        //console.log(w1 + " "+w2);
         for(var i = 0; i < ew1.length; i++) {
             dist += (ew1[i] - ew2[i])*(ew1[i] - ew2[i]);
         }
@@ -443,8 +508,6 @@
         document.getElementById('inputText').value = document.getElementById('inputText').value+word+" ";
         updateText();
     }
-    
-    //document.getElementById('container').appendChild(button);
 
 
     function inputChanged(arr) {
@@ -501,11 +564,14 @@
     
     //loading
     var client = new XMLHttpRequest();
-    var client2 = new XMLHttpRequest();
+    
     var client3 = new XMLHttpRequest();
     var reverseDic = {};
     var dic = {};
-    var freqWords = new Array();
+    var freqWords10 = new Array();
+    var freqWords100 = new Array();
+    var freqWords1000 = new Array();
+    var curFreqWords;
     var embedding = {};
     var freqReady = false;
     var embReady = false;
@@ -529,41 +595,32 @@
             console.log("Dictionary Ready");
         //}
     }
-    var data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    //create model
-    const model = new KerasJS.Model({
-        filepaths: {
-            model: 'newmodel/model.json',
-            weights: 'newmodel/model_weights.buf',
-            metadata: 'newmodel/model_metadata.json'
-        },
-        gpu: true
-    });
+    
     client.send();
-    console.log(model);
     
     //load word frequency count
-    client2.open('GET', 'Gabb_Data/high-frequency-10-10.txt');
-    client2.onreadystatechange = function() {
-        //if(!freqReady) {
-            freqWords = new Array();
-            var lines = client2.responseText.split('\n');
-            for (var i=0; i<lines.length; i++){
-                var l = lines[i].split(',');
-                for (var j=0; j<l.length; j++){
-                    if(l[j].length > 0)
-                        freqWords.push(l[j].trim());
+    function loadFrequencies(name,variable) {
+        var client2 = new XMLHttpRequest();
+        client2.open('GET', name);
+        client2.onreadystatechange = function() {
+                var lines = client2.responseText.split('\n');
+                for (var i=0; i<lines.length; i++){
+                    var l = lines[i].split(',');
+                    for (var j=0; j<l.length; j++){
+                        if(l[j].length > 0)
+                            variable.push(l[j].trim());
+                    }
                 }
-            }
-            console.log("Frequency count Ready");
-            //console.log(freqWords.length);
-            //console.log(freqWords.length + " "+freqWords[0]);
-            freqReady = true;
-        //}
+        }
+        client2.send();
     }
     
-    client2.send();
-    
+    loadFrequencies('Gabb_Data/high-frequency-10-10.txt',freqWords10);
+    loadFrequencies('Gabb_Data/high-frequency-100-10.txt',freqWords100);
+    loadFrequencies('Gabb_Data/high-frequency-1000-10.txt',freqWords1000);
+    freqWords = freqWords10;
+    freqReady = true;
+    console.log("Frequency count Ready");
     
     client3.open('GET', 'Gabb_Data/GloVe.txt');
     console.log(client3);
@@ -578,47 +635,15 @@
                         arr.push(l[j].trim());
                 }
                 var key = l[0];
-                //embedding.push({key,arr});
                 embedding[key] = arr;
             }
-            dicReady = true;
             console.log("Embedding Ready");
-            //console.log(embedding.length);
-
-            //console.log(embedding["a"]);
-            //console.log(freqWords.length + " "+freqWords[0]);
             embReady = true;
-        //}
+            document.getElementById('maindiv').style.display='block';
+            document.getElementById('p1').style.display='none';
     }
     
     client3.send();
     
-    
-    model.ready().then(() => {
-        modelReady = true;
-        console.log("Model Ready");
-    }).catch(err => {
-        console.log(err);
-    });
-
-    
-    /*function predict(){
-        if(modelReady && dicReady){
-            const inputData = {
-            'input': new Float32Array(data)
-            };
-            model.predict(inputData).then(outputData => {
-                var index = getMaxIndex(outputData.output);
-                data.push(index);
-                data.splice(0, 1);
-                console.log(reverseDic[index]);
-            }).catch(err => {
-                console.log(err);
-            });
-        }
-        else{
-            console.log("Not Ready");
-        }
-    }*/
 </script>
 </html>
