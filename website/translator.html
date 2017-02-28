@@ -281,7 +281,7 @@
         modifiedString = modifiedString.replace(/'/g, "'"); 
         modifiedString = modifiedString.replace(/\(/g, " "); 
         modifiedString = modifiedString.replace(/\)/g, " "); 
-        modifiedString = modifiedString.replace(/,/g, " , ");
+        //modifiedString = modifiedString.replace(/,/g, " , ");
         modifiedString = modifiedString.replace(/-/g, " "); 
         modifiedString = modifiedString.replace(/\./g, " . "); 
         modifiedString = modifiedString.replace(/\//g, " ");
@@ -415,7 +415,7 @@
                             continue;
                         } else {
                             console.log(splitted[i]+" <turned> "+newWord);
-                            substituteInTextArea(splitted[i],newWord);
+                            substituteAllInTextArea(splitted[i],newWord);
                             //console.log(splitted[i]+" "+newWord);
                             splitted[i] = newWord;
                             //console.log(splitted[i]);
