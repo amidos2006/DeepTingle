@@ -359,7 +359,7 @@
             var listitem = document.createElement('li');
             listitem.className="mdl-list__item";
             var button = document.createElement('button');
-            var textNode = document.createTextNode(reverseDic[indexes[i]]);
+            var textNode = document.createTextNode(reverseDic[index]);//indexes[i]]);
             button.appendChild(textNode);
             button.className = 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored';
             button.addEventListener("click",clickedOnSugestion);
@@ -435,13 +435,13 @@
         var indexLower = -1;
         for(var i = 0; i < quant+1;i++) {
             indexes[i] = i;
-            if(i != 2 && lowerValue > arr[i]) {
+            if(lowerValue > arr[i]) {
                 lowerValue = arr[i];
                 indexLower = i;
             }
         }
         for(var i=quant; i<arr.length; i++) {
-            if(i != 2 && arr[i] > lowerValue) {
+            if(arr[i] > lowerValue) {
                 indexes[indexLower] = i;
                 
                 lowerValue = arr[indexes[0]];
@@ -465,11 +465,11 @@
     var client = new XMLHttpRequest();
     
     //Number -> Word
-    client.open('GET', 'Gabb_Data/reverseDic.txt');
+    client.open('GET', 'Gabb_Data/wordsDic.txt');
     client.onreadystatechange = function() {
         var lines = client.responseText.split('\n');
         for (var i=0; i<lines.length; i++){
-            var l = lines[i].split(", ");
+            var l = lines[i].split(" ");
             if(l.length > 1){
                 reverseDic[parseInt(l[0])] = l[1].trim();
                 dic[l[1].trim()] = parseInt(l[0]);

@@ -181,6 +181,13 @@
                             <label class="mdl-textfield__label" for="inputText">Write here...</label>
                         </div>
                     </div>
+                    
+                    <div class="mdl-cell" id="celloutput">
+                        <div class="mdl-textfield mdl-js-textfield" id="mloutputText">
+                            <textarea class="mdl-textfield__input" type="text" rows= "6" id="outputText"></textarea>
+                            <label class="mdl-textfield__label" for="outputText"></label>
+                        </div>
+                    </div>
 
                     <div class="mdl-cell mdl-cell--2-col" id="cellright">
                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"  onclick="return tranlation()" id="tinglefy" >Tinglefy!</button>
@@ -197,7 +204,7 @@
                          <div class="mdl-tooltip" for="probid">Probability of translating words.<br>100% = all words that aren't frequent in Tingle text will change.<br>0% no word will change, no matter how infrequent it appears in Tingle text.</div>
                      <p style="width:300px">
                          Frequency of how "tingle-like" the words are:"
-
+                        </p>
                         <table>
                           <tr>
                               <div id="op1">
@@ -230,7 +237,7 @@
                              <div class="mdl-tooltip" for="op3">Use the words which appear 1000 times more in Tingle text than in Wikipedia.</div>
                           </tr>
                        </table>   
-                        </p>
+                        
                     </div>
                 </div>
 
@@ -407,6 +414,10 @@
     }
     
     function tranlation() {
+        console.log(freqWords);
+        console.log(freqWords10);
+        console.log(freqWords100);
+        console.log(freqWords1000);
         //console.log("?"+dic["cat"]);
         //console.log("In translate");
         var inputText = document.getElementById('inputText').value;
@@ -477,7 +488,7 @@
                         var word = findClosestTypicalWord(wordsNotTypical[i]);
 
                         //console.log("Substituting "+wordsNotTypical[i] +" by "+word);
-                        substituteAllInTextArea(wordsNotTypical[i],word);
+                        outputInTextArea(wordsNotTypical[i],word);
                     }
                 }
                 
@@ -553,6 +564,16 @@
         }
         
         document.getElementById('inputText').value = text;
+    }
+    
+    function outputInTextArea(previousWord, newWord) {
+        var splitted = document.getElementById('inputText').value.toLowerCase().split(" ");
+        var text = "";
+        for(var i = 0; i < splitted.length; i++) {
+            text += (splitted[i] == previousWord ? newWord : splitted[i] ) + (i < splitted.length - 1? " ": "");
+        }
+        
+        document.getElementById('outputText').value = text;
     }
     
     function acceptSuggestion() {
@@ -647,14 +668,14 @@
     
     //load dictionary
     //Number -> Word
-    client.open('GET', 'Gabb_Data/reverseDic.txt');
+    client.open('GET', 'Gabb_Data/wordsDic.txt');
     client.onreadystatechange = function() {
         //if(!dicReady) {
             reverseDic = {};
             dic = {};
             var lines = client.responseText.split('\n');
             for (var i=0; i<lines.length; i++){
-                var l = lines[i].split(", ");
+                var l = lines[i].split(" ");
                 if(l.length > 1){
                     reverseDic[parseInt(l[0])] = l[1].trim();
                     dic[l[1].trim()] = parseInt(l[0]);
