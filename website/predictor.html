@@ -407,7 +407,11 @@
         };
 
         //console.log(event.srcElement.innerHTML);
-        var word = event.srcElement.innerHTML;
+        var word;
+        if(event.srElement)
+            word = event.srcElement.innerHTML;
+        else
+            word = event.target.textContent;
         clearList();
         addTextWithWord(word);
         
