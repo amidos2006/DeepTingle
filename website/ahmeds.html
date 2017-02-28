@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Testing Deep Tingle</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <button onclick="predict()">Predict</button>
+  </body>
+  <script src="dist/keras.js"></script>
+  <script>
+    var dicReady = false;
+    var modelReady = false;
+
+    function getMaxIndex(arr){
+      var maxValue = arr[0];
+      var maxIndex = 0;
+      for(var i=1; i<arr.length; i++){
+        if(arr[i] > maxValue){
+          maxValue = arr[i];
+          maxIndex = i;
+        }
+      }
+
+      return maxIndex;
+    }
+    var client = new XMLHttpRequest();
+    var reverseDic = {};
+    client.open('GET', 'Gabb_Data/wordsDic.txt');
+    client.onreadystatechange = function() {
+      var lines = client.responseText.split('\n');
+      for (var i=0; i<lines.length; i++){
+        var l = lines[i].split(' ');
+        if(l.length > 1){
+          reverseDic[parseInt(l[0])] = l[1].trim();
+        }
+      }
+      dicReady = true;
+      console.log("Dictionary Ready");
+    }
+    var data = [14,426,10089,8,812];
+    const model = new KerasJS.Model({
+      filepaths: {
+        model: 'newmodel/model.json',
+        weights: 'newmodel/model_weights.buf',
+        metadata: 'newmodel/model_metadata.json'
+      },
+      gpu: true
+    });
+    client.send();
+    model.ready().then(() => {
+      modelReady = true;
+      console.log("Model Ready");
+    }).catch(err => {
+      console.log(err);
+    });
+
+    function predict(){
+      if(modelReady && dicReady){
+        const inputData = {
+          'input': new Float32Array(data)
+        };
+        model.predict(inputData).then(outputData => {
+          var index = getMaxIndex(outputData.output);
+          data.push(index);
+          data.splice(0, 1);
+          console.log(reverseDic[index]);
+        }).catch(err => {
+          console.log(err);
+        });
+      }
+      else{
+        console.log("Not Ready");
+      }
+    }
+  </script>
+</html>
