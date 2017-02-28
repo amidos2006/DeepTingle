@@ -193,16 +193,21 @@
                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"  onclick="return tranlation()" id="tinglefy" >Tinglefy!</button>
                     </div>
 
-                    <div class="mdl-cell mdl-cell--2-col">
-                        <div id="probid">
+                    
+                </div>
+
+                
+                <div class="content-grid mdl-grid">
+                    <div  class="mdl-cell" id="probid">
                         <p style="width:300px">
                             Probability of switching words to more frequent ones:
                         <input class="mdl-slider mdl-js-slider" id="probslider"
                                type="range" id="s1" min="0" max="100" value="100" oninput="changedProb(this.value)" onchange="changedProb(this.value)">
                         </p>
-                        </div>
-                         <div class="mdl-tooltip" for="probid">Probability of translating words.<br>100% = all words that aren't frequent in Tingle text will change.<br>0% no word will change, no matter how infrequent it appears in Tingle text.</div>
-                     <p style="width:300px">
+                     </div>
+                     <div class="mdl-tooltip" for="probid">Probability of translating words.<br>100% = all words that aren't frequent in Tingle text will change.<br>0% no word will change, no matter how infrequent it appears in Tingle text.</div>
+                     <div class="mdl-cell">
+                         <p style="width:300px">
                          Frequency of how "tingle-like" the words are:"
                         </p>
                         <table>
@@ -237,10 +242,8 @@
                              <div class="mdl-tooltip" for="op3">Use the words which appear 1000 times more in Tingle text than in Wikipedia.</div>
                           </tr>
                        </table>   
-                        
                     </div>
                 </div>
-
             <!--/form-->
 
             <!--div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="tingleright "> </div-->
@@ -256,7 +259,7 @@
     var inputText ="?";
     var SUBSTITUTE_ONLY_IF_FIRST_CHAR_MATCH = false;
     var INPUT_SIZE = 10;
-    var ignoredwords = ["is","are","there","was","were","can","should","will","I","he","she","they", "a",
+    var ignoredwords = [",",".","is","are","there","was","were","can","should","will","I","he","she","they", "a",
                        "at","in","on","my","yours","his","hers","they","his","her","their","your","mine",
                        "this","is", "i", "it", "that", "who", "which","but","but","the","an","and"];
     var probOfSwitching = 100;
@@ -414,14 +417,14 @@
     }
     
     function tranlation() {
-        console.log(freqWords);
-        console.log(freqWords10);
-        console.log(freqWords100);
-        console.log(freqWords1000);
+        //console.log(freqWords);
+        //console.log(freqWords10);
+        //console.log(freqWords100);
+        //console.log(freqWords1000);
         //console.log("?"+dic["cat"]);
         //console.log("In translate");
         var inputText = document.getElementById('inputText').value;
-        if(freqReady && embReady && dicReady){
+        if(freqReady && embReady && dicReady && inputText.length > 0){
             //console.log(inputText);
             //console.log("test ");
             //console.log(dic["temperance"]);
@@ -483,15 +486,31 @@
                 
                 //-> look at embedding
                 //-> find a tingle-typical word that is closest. Switch.
+                var text = document.getElementById('inputText').value.toLowerCase().split(" ");
                 for(var i = 0; i < wordsNotTypical.length; i++) {
                     if(rand100() <= probOfSwitching) {
                         var word = findClosestTypicalWord(wordsNotTypical[i]);
 
+                        for(var j = 0; j < text.length; j++) {
+                            if(text[j] == wordsNotTypical[i]) {
+                                text[j] = word;
+                            }
+                        }
+                        
                         //console.log("Substituting "+wordsNotTypical[i] +" by "+word);
-                        outputInTextArea(wordsNotTypical[i],word);
+                        //text = outputInTextArea(wordsNotTypical[i],word,text);
                     }
                 }
                 
+                var remadeText = text[0];
+                for(var i = 1; i < text.length; i++) {
+                    if(text[i] == ',') {
+                        remadeText+=text[i];
+                    } else {
+                        remadeText += " "+text[i];
+                    }
+                }
+                document.getElementById('outputText').value = remadeText;
             }
         } else{
             console.log("Not Ready");
@@ -525,33 +544,6 @@
         return dist;
     }
     
-    function offerSugestion(outputData, quant) {
-        //deleting first one
-        var index = getMaxIndex(outputData.output);
-        var indexes = getMaxIndexes(outputData.output, quant);
-        //data.push(index);
-
-        //console.log(reverseDic);
-        //console.log(reverseDic[index]);
-        //console.log(index);
-        //console.log(outputData.output);
-        clearList();
-
-        for(var i = 0; i < indexes.length; i++) {
-            var listitem = document.createElement('li');
-            listitem.className="mdl-list__item";
-            var button = document.createElement('button');
-            var textNode = document.createTextNode(reverseDic[indexes[i]]);
-            button.appendChild(textNode);
-            button.className = 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored';
-            button.addEventListener("click",clickedOnSugestion);
-            //button.onclick = "clickedOnSugestion(this)";
-            //componentHandler.upgradeElement(button);
-            listitem.appendChild(button);
-            document.getElementById('listofsugestions').appendChild(listitem);
-         }
-    }
-    
     function substituteInTextArea(previousWord, newWord) {
         document.getElementById('inputText').value = document.getElementById('inputText').value.replace(previousWord, newWord);
     }
@@ -566,14 +558,15 @@
         document.getElementById('inputText').value = text;
     }
     
-    function outputInTextArea(previousWord, newWord) {
-        var splitted = document.getElementById('inputText').value.toLowerCase().split(" ");
+    function outputInTextArea(previousWord, newWord, previousText) {
+        console.log(previousText);
+        var splitted = previousText.split(" ");
         var text = "";
         for(var i = 0; i < splitted.length; i++) {
             text += (splitted[i] == previousWord ? newWord : splitted[i] ) + (i < splitted.length - 1? " ": "");
         }
         
-        document.getElementById('outputText').value = text;
+        return text;
     }
     
     function acceptSuggestion() {
