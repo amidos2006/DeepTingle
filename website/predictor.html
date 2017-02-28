@@ -188,7 +188,7 @@
         modifiedString = modifiedString.replace(/'/g, "'"); 
         modifiedString = modifiedString.replace(/\(/g, " "); 
         modifiedString = modifiedString.replace(/\)/g, " "); 
-        //modifiedString = modifiedString.replace(/,/g, " , ");
+        modifiedString = modifiedString.replace(/,/g, " , ");
         modifiedString = modifiedString.replace(/-/g, " "); 
         modifiedString = modifiedString.replace(/\./g, " . "); 
         modifiedString = modifiedString.replace(/\//g, " ");
@@ -469,7 +469,7 @@
     client.onreadystatechange = function() {
         var lines = client.responseText.split('\n');
         for (var i=0; i<lines.length; i++){
-            var l = lines[i].split(',');
+            var l = lines[i].split(", ");
             if(l.length > 1){
                 reverseDic[parseInt(l[0])] = l[1].trim();
                 dic[l[1].trim()] = parseInt(l[0]);
