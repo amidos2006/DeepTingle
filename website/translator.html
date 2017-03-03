@@ -112,8 +112,8 @@
                 <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
                     <a class="mdl-navigation__link" href="predictor.html">Predictive Tingle</a>
                     <a class="mdl-navigation__link  is-active" href="translator.html">Tingle Translator</a>
+                    <a class="mdl-navigation__link  is-active" href="generator.html">Classic Tingles</a>
                     <a class="mdl-navigation__link" href="about.html">About</a>
-                    <a class="mdl-navigation__link" href="contact.html">Contact</a>
                 </nav>
             </div>
         </header>
@@ -121,8 +121,8 @@
             <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
                 <a class="mdl-navigation__link is-active" href="predictor.html">Predictive Tingle</a>
                 <a class="mdl-navigation__link" href="translator.html">Tingle Translator</a>
+                    <a class="mdl-navigation__link  is-active" href="generator.html">Classic Tingles</a>
                 <a class="mdl-navigation__link" href="about.html">About</a>
-                <a class="mdl-navigation__link" href="contact.html">Contact</a>
             </nav>
         </div>
         <main class="mdl-layout__content">
@@ -413,6 +413,8 @@
         return false;
     }
     
+    var useSub=false;
+    
     function tranlation() {
         //console.log(freqWords);
         //console.log(freqWords10);
@@ -428,153 +430,303 @@
             //console.log(dic["dick"]);
             
             //clean input and split it using spaces
-            var splitted = cleanInput(inputText).split(" ");
-            var substituted = cleanInput(inputText).split(" ");
-            var altered = cleanInput(inputText).split(" ");
-            if(splitted.length > 0) {
-                //substitution
-                
-                for(var i = 0; i < splitted.length; i++) {
-                    if(dic[splitted[i]] === undefined) {
-                        var newWord = substitute(splitted[i]);
-                        if(newWord === null) {
-                             //console.log("New word is null "+splitted[i]+ " "+newWord);
-                            continue;
-                        } else {
-                            console.log(splitted[i]+" <turned> "+newWord);
-                            
-                            for(var j = 0; j < substituted.length; j++) {
-                                if(substituted[j] == splitted[i])
-                                    substituted[j] = newWord;
-                            }
-                            
-                            //substituteAllInTextArea(splitted[i],newWord);
-                            //console.log(splitted[i]+" "+newWord);
-                            //splitted[i] = newWord;
-                            //console.log(splitted[i]);
-                        }
-                    } else {
-                        //console.log("Not changing "+splitted[i]+". index: "+dic[splitted[i]]);
-                    }
-                    
-                }
-                //--------------------------------
-                //For each word not in Tingle-typical list:
-                //find all words not in tingle typical list
-                var wordsNotTypical = new Array();
-                var lookedWords = {};
-                var contains = false;
-                //using substitution
-                for(var i = 0; i< substituted.length; i++) {
-                    //console.log("lookedWords[splitted[i]] "+lookedWords[splitted[i]] +" freqwordsize "+freqWords.length);
-                    if(lookedWords[substituted[i]] === undefined) {
-                        lookedWords[substituted[i]] = true;
-                        
-                        if(shouldIgnoreWord(substituted[i])) {
-                            continue;
-                        } else {
-                            contains = false;
-                            for(var j = 0; j < freqWords.length; j++) {
-                                if(freqWords[j] === substituted[i]) {
-                                    contains = true;
-                                    break;
-                                }
-                            }
-                            if(!contains) {
-                                //console.log("Add "+splitted[i]);
-                                wordsNotTypical.push(substituted[i]);
-                            }
-                         }
-                    }
-                }
-                
-                
-                
-                //-> look at embedding
-                //-> find a tingle-typical word that is closest. Switch.
-                
-                for(var i = 0; i < wordsNotTypical.length; i++) {
-                    if(rand100() <= probOfSwitching) {
-                        var word = findClosestTypicalWord(wordsNotTypical[i]);
+            if(useSub) {            
+                var splitted = cleanInput(inputText).split(" ");
+                var substituted = cleanInput(inputText).split(" ");
+                var altered = cleanInput(inputText).split(" ");
+                if(splitted.length > 0) {
+                    //substitution
 
-                        for(var j = 0; j < substituted.length; j++) {
-                            if(substituted[j] === wordsNotTypical[i]) {
-                                substituted[j] = word;
-                            }
-                        }
-                        
-                        //console.log("Substituting "+wordsNotTypical[i] +" by "+word);
-                        //text = outputInTextArea(wordsNotTypical[i],word,text);
-                    }
-                }
-                
-                console.log("substituted");
-                var capsNext = false;
-                var remadeText = caps(substituted[0]);
-                for(var i = 1; i < substituted.length; i++) {
-                    if(substituted[i] == ',') {
-                        remadeText+=substituted[i];
-                    } else if(substituted[i] == '.'){
-                        capsNext = true;
-                        remadeText+=substituted[i];
-                    } else {
-                        if(capsNext || (substituted[i].charAt(0) =='i' && 
-                                        substituted[i] === "i" || substituted[i] ==="i'd" || substituted[i] === "i'll")) {
-                            capsNext = false;
-                            remadeText += " "+caps(substituted[i]);
-                        } else {
-                            remadeText += " "+substituted[i];
-                        }
-                        
-                    }
-                }
-                console.log(remadeText);
-                //--------------------------------
-                
-                /*wordsNotTypical = new Array();
-                lookedWords = {};
-                //using substitution
-                for(var i = 0; i< splitted.length; i++) {
-                    //console.log("lookedWords[splitted[i]] "+lookedWords[splitted[i]] +" freqwordsize "+freqWords.length);
-                    if(lookedWords[splitted[i]] === undefined) {
-                        lookedWords[splitted[i]] = true;
-                        
-                        if(shouldIgnoreWord(splitted[i])){// || dic[splitted[i]] === undefined) {
-                            continue;
-                        } else {
-                            contains = false;
-                            for(var j = 0; j < freqWords.length; j++) {
-                                //console.log(freqWords[j]);
+                    for(var i = 0; i < splitted.length; i++) {
+                        if(dic[splitted[i]] === undefined) {
+                            var newWord = substitute(splitted[i]);
+                            if(newWord === null) {
+                                 //console.log("New word is null "+splitted[i]+ " "+newWord);
+                                continue;
+                            } else {
+                                console.log(splitted[i]+" <turned> "+newWord);
+
+                                for(var j = 0; j < substituted.length; j++) {
+                                    if(substituted[j] == splitted[i])
+                                        substituted[j] = newWord;
+                                }
+
+                                //substituteAllInTextArea(splitted[i],newWord);
+                                //console.log(splitted[i]+" "+newWord);
+                                //splitted[i] = newWord;
                                 //console.log(splitted[i]);
-                                if(freqWords[j] === splitted[i]) {
-                                    contains = true;
-                                    break;
+                            }
+                        } else {
+                            //console.log("Not changing "+splitted[i]+". index: "+dic[splitted[i]]);
+                        }
+
+                    }
+                    //--------------------------------
+                    //For each word not in Tingle-typical list:
+                    //find all words not in tingle typical list
+                    var wordsNotTypical = new Array();
+                    var lookedWords = {};
+                    var contains = false;
+                    //using substitution
+                    for(var i = 0; i< substituted.length; i++) {
+                        //console.log("lookedWords[splitted[i]] "+lookedWords[splitted[i]] +" freqwordsize "+freqWords.length);
+                        if(lookedWords[substituted[i]] === undefined) {
+                            lookedWords[substituted[i]] = true;
+
+                            if(shouldIgnoreWord(substituted[i])) {
+                                continue;
+                            } else {
+                                contains = false;
+                                for(var j = 0; j < freqWords.length; j++) {
+                                    if(freqWords[j] === substituted[i]) {
+                                        contains = true;
+                                        break;
+                                    }
+                                }
+                                if(!contains) {
+                                    //console.log("Add "+splitted[i]);
+                                    wordsNotTypical.push(substituted[i]);
+                                }
+                             }
+                        }
+                    }
+
+
+
+                    //-> look at embedding
+                    //-> find a tingle-typical word that is closest. Switch.
+
+                    for(var i = 0; i < wordsNotTypical.length; i++) {
+                        if(rand100() <= probOfSwitching) {
+                            var word = findClosestTypicalWord(wordsNotTypical[i]);
+
+                            for(var j = 0; j < substituted.length; j++) {
+                                if(substituted[j] === wordsNotTypical[i]) {
+                                    substituted[j] = word;
                                 }
                             }
-                            if(!contains) {
-                                //console.log("Add "+splitted[i]);
-                                wordsNotTypical.push(splitted[i]);
+
+                            //console.log("Substituting "+wordsNotTypical[i] +" by "+word);
+                            //text = outputInTextArea(wordsNotTypical[i],word,text);
+                        }
+                    }
+
+                    console.log("substituted");
+                    var capsNext = false;
+                    var remadeText = caps(substituted[0]);
+                    for(var i = 1; i < substituted.length; i++) {
+                        if(substituted[i] == ',') {
+                            remadeText+=substituted[i];
+                        } else if(substituted[i] == '.'){
+                            capsNext = true;
+                            remadeText+=substituted[i];
+                        } else {
+                            if(capsNext || (substituted[i].charAt(0) =='i' && 
+                                            substituted[i] === "i" || substituted[i] ==="i'd" || substituted[i] === "i'll")) {
+                                capsNext = false;
+                                remadeText += " "+caps(substituted[i]);
+                            } else {
+                                remadeText += " "+substituted[i];
                             }
-                         }
+
+                        }
                     }
-                }
-                
-                
-                remadeText = splitted[0];
-                for(var i = 1; i < splitted.length; i++) {
-                    if(splitted[i] == ',' || splitted[i] == '.') {
-                        remadeText+=splitted[i];
-                    } else {
-                        remadeText += " "+splitted[i];
+                    console.log(remadeText);
+                    //--------------------------------
+
+                    /*wordsNotTypical = new Array();
+                    lookedWords = {};
+                    //using substitution
+                    for(var i = 0; i< splitted.length; i++) {
+                        //console.log("lookedWords[splitted[i]] "+lookedWords[splitted[i]] +" freqwordsize "+freqWords.length);
+                        if(lookedWords[splitted[i]] === undefined) {
+                            lookedWords[splitted[i]] = true;
+
+                            if(shouldIgnoreWord(splitted[i])){// || dic[splitted[i]] === undefined) {
+                                continue;
+                            } else {
+                                contains = false;
+                                for(var j = 0; j < freqWords.length; j++) {
+                                    //console.log(freqWords[j]);
+                                    //console.log(splitted[i]);
+                                    if(freqWords[j] === splitted[i]) {
+                                        contains = true;
+                                        break;
+                                    }
+                                }
+                                if(!contains) {
+                                    //console.log("Add "+splitted[i]);
+                                    wordsNotTypical.push(splitted[i]);
+                                }
+                             }
+                        }
                     }
+
+
+                    remadeText = splitted[0];
+                    for(var i = 1; i < splitted.length; i++) {
+                        if(splitted[i] == ',' || splitted[i] == '.') {
+                            remadeText+=splitted[i];
+                        } else {
+                            remadeText += " "+splitted[i];
+                        }
+                    }
+                    console.log("not subs");
+                    console.log(remadeText);*/
+
+
+
+
+                    document.getElementById('outputText').value = remadeText;
                 }
-                console.log("not subs");
-                console.log(remadeText);*/
-                
-                
-                
-                
-                document.getElementById('outputText').value = remadeText;
+            } else {
+                var splitted = cleanInput(inputText).split(" ");
+                var substituted = cleanInput(inputText).split(" ");
+                var altered = cleanInput(inputText).split(" ");
+                if(splitted.length > 0) {
+                    //substitution
+                    for(var i = 0; i < splitted.length; i++) {
+                        if(dic[splitted[i]] === undefined) {
+                            var newWord = substitute(splitted[i]);
+                            if(newWord === null) {
+                                 //console.log("New word is null "+splitted[i]+ " "+newWord);
+                                continue;
+                            } else {
+                                console.log(splitted[i]+" <turned> "+newWord);
+
+                                for(var j = 0; j < substituted.length; j++) {
+                                    if(substituted[j] == splitted[i])
+                                        substituted[j] = newWord;
+                                }
+
+                                //substituteAllInTextArea(splitted[i],newWord);
+                                //console.log(splitted[i]+" "+newWord);
+                                //splitted[i] = newWord;
+                                //console.log(splitted[i]);
+                            }
+                        } else {
+                            //console.log("Not changing "+splitted[i]+". index: "+dic[splitted[i]]);
+                        }
+
+                    }
+                    //--------------------------------
+                    //For each word not in Tingle-typical list:
+                    //find all words not in tingle typical list
+                    var wordsNotTypical = new Array();
+                    var lookedWords = {};
+                    var contains = false;
+                    //using substitution
+                    for(var i = 0; i< substituted.length; i++) {
+                        //console.log("lookedWords[splitted[i]] "+lookedWords[splitted[i]] +" freqwordsize "+freqWords.length);
+                        if(lookedWords[substituted[i]] === undefined) {
+                            lookedWords[substituted[i]] = true;
+
+                            if(shouldIgnoreWord(substituted[i])) {
+                                continue;
+                            } else {
+                                contains = false;
+                                for(var j = 0; j < freqWords.length; j++) {
+                                    if(freqWords[j] === substituted[i]) {
+                                        contains = true;
+                                        break;
+                                    }
+                                }
+                                if(!contains) {
+                                    //console.log("Add "+splitted[i]);
+                                    wordsNotTypical.push(substituted[i]);
+                                }
+                             }
+                        }
+                    }
+
+
+
+                    //-> look at embedding
+                    //-> find a tingle-typical word that is closest. Switch.
+
+                    for(var i = 0; i < wordsNotTypical.length; i++) {
+                        if(rand100() <= probOfSwitching) {
+                            var word = findClosestTypicalWord(wordsNotTypical[i]);
+
+                            for(var j = 0; j < substituted.length; j++) {
+                                if(substituted[j] === wordsNotTypical[i]) {
+                                    substituted[j] = word;
+                                }
+                            }
+
+                            //console.log("Substituting "+wordsNotTypical[i] +" by "+word);
+                            //text = outputInTextArea(wordsNotTypical[i],word,text);
+                        }
+                    }
+
+                    console.log("substituted");
+                    var capsNext = false;
+                    var remadeText = caps(substituted[0]);
+                    for(var i = 1; i < substituted.length; i++) {
+                        if(substituted[i] == ',') {
+                            remadeText+=substituted[i];
+                        } else if(substituted[i] == '.'){
+                            capsNext = true;
+                            remadeText+=substituted[i];
+                        } else {
+                            if(capsNext || (substituted[i].charAt(0) =='i' && 
+                                            substituted[i] === "i" || substituted[i] ==="i'd" || substituted[i] === "i'll")) {
+                                capsNext = false;
+                                remadeText += " "+caps(substituted[i]);
+                            } else {
+                                remadeText += " "+substituted[i];
+                            }
+
+                        }
+                    }
+                    console.log(remadeText);
+                    //--------------------------------
+
+                    /*wordsNotTypical = new Array();
+                    lookedWords = {};
+                    //using substitution
+                    for(var i = 0; i< splitted.length; i++) {
+                        //console.log("lookedWords[splitted[i]] "+lookedWords[splitted[i]] +" freqwordsize "+freqWords.length);
+                        if(lookedWords[splitted[i]] === undefined) {
+                            lookedWords[splitted[i]] = true;
+
+                            if(shouldIgnoreWord(splitted[i])){// || dic[splitted[i]] === undefined) {
+                                continue;
+                            } else {
+                                contains = false;
+                                for(var j = 0; j < freqWords.length; j++) {
+                                    //console.log(freqWords[j]);
+                                    //console.log(splitted[i]);
+                                    if(freqWords[j] === splitted[i]) {
+                                        contains = true;
+                                        break;
+                                    }
+                                }
+                                if(!contains) {
+                                    //console.log("Add "+splitted[i]);
+                                    wordsNotTypical.push(splitted[i]);
+                                }
+                             }
+                        }
+                    }
+
+
+                    remadeText = splitted[0];
+                    for(var i = 1; i < splitted.length; i++) {
+                        if(splitted[i] == ',' || splitted[i] == '.') {
+                            remadeText+=splitted[i];
+                        } else {
+                            remadeText += " "+splitted[i];
+                        }
+                    }
+                    console.log("not subs");
+                    console.log(remadeText);*/
+
+
+
+
+                    document.getElementById('outputText').value = remadeText;
+                }
             }
         } else{
             console.log("Not Ready");

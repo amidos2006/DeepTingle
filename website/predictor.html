@@ -90,8 +90,8 @@
                 <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
                     <a class="mdl-navigation__link" href="predictor.html">Predictive Tingle</a>
                     <a class="mdl-navigation__link  is-active" href="translator.html">Tingle Translator</a>
+                    <a class="mdl-navigation__link  is-active" href="generator.html">Classic Tingles</a>
                     <a class="mdl-navigation__link" href="about.html">About</a>
-                    <a class="mdl-navigation__link" href="contact.html">Contact</a>
                 </nav>
             </div>
         </header>
@@ -99,8 +99,8 @@
             <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
                 <a class="mdl-navigation__link is-active" href="predictor.html">Predictive Tingle</a>
                 <a class="mdl-navigation__link" href="translator.html">Tingle Translator</a>
+                <a class="mdl-navigation__link  is-active" href="generator.html">Classic Tingles</a>
                 <a class="mdl-navigation__link" href="about.html">About</a>
-                <a class="mdl-navigation__link" href="contact.html">Contact</a>
             </nav>
         </div>
         <main class="mdl-layout__content">
@@ -278,6 +278,11 @@
             return word;
         }
     }
+    
+    var useSub = true;
+    
+    //TODO don't show substitution to the player
+    //TODO add useSub verification
     
     function updateText(arr) {
         var inputText = document.getElementById('inputText').value;
