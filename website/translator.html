@@ -96,6 +96,10 @@
         line-height: 20px;
     }
     
+    .mdl-textfield {
+        width:100%;
+    }
+    
     
 </style>
     
@@ -105,7 +109,7 @@
             <div class="mdl-layout__header-row portfolio-logo-row">
                 <span class="mdl-layout__title">
                     <div class="portfolio-logo"></div>
-                    <a class="mdl-navigation__link" href="index.html"><span class="mdl-layout__title">Deep Tingle</span></a>
+                    <a class="mdl-navigation__link" href="index.html"><span class="mdl-layout__title"><i class="material-icons">menu</i>Deep Tingle</span></a>
                 </span>
             </div>
             <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
@@ -175,14 +179,14 @@
                 <div class="content-grid mdl-grid" id="leftdiv">
                     <div class="mdl-cell mdl-cell--4-col" id="cellleft">
                         <div class="mdl-textfield mdl-js-textfield" id="mlinputText">
-                            <textarea class="mdl-textfield__input" :value.sync="inputText" type="text" rows= "6" id="inputText"></textarea>
+                            <textarea class="mdl-textfield__input" :value.sync="inputText" type="text" rows= "15" id="inputText"></textarea>
                             <label class="mdl-textfield__label" for="inputText">Write here...</label>
                         </div>
                     </div>
                     
                     <div class="mdl-cell mdl-cell--4-col" id="celloutput">
                         <div class="mdl-textfield mdl-js-textfield" id="mloutputText">
-                            <textarea class="mdl-textfield__input" type="text" rows= "6" id="outputText"></textarea>
+                            <textarea class="mdl-textfield__input" type="text" rows= "15" id="outputText"></textarea>
                             <label class="mdl-textfield__label" for="outputText">And translation will show here!</label>
                         </div>
                     </div>

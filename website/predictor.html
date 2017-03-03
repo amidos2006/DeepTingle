@@ -54,7 +54,7 @@
     
     
     #mlinputText {
-        width:70%;
+        width:100%;
     }
     
     
@@ -67,7 +67,7 @@
 </style>
     
 <head>
-    <title>Testing Deep Tingle</title>
+    <title>DeepTingle</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -83,7 +83,7 @@
             <div class="mdl-layout__header-row portfolio-logo-row">
                 <span class="mdl-layout__title">
                     <div class="portfolio-logo"></div>
-                    <a class="mdl-navigation__link" href="index.html"><span class="mdl-layout__title">Deep Tingle</span></a>
+                    <a class="mdl-navigation__link" href="index.html"><span class="mdl-layout__title"><i class="material-icons">menu</i>Deep Tingle</span></a>
                 </span>
             </div>
             <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
@@ -114,7 +114,7 @@
                         <h2 class="mdl-card__title-text">Tingle Prediction</h2>
                       </div>
                       <div class="mdl-card__supporting-text">
-                          This is a placeholder text for the project's description: We use neural networks to provide sugestions on what to write and etc.
+                          Write below, and suggestions will appear on the right every time you press the spacebar.
                           <br><br>
                           If the last word you typed is not in the Tingle-nary, Predictive Tingle will automatically change it to the nearest Tingle word. If you do not want this to happen (for example, for character names and places), add an asterisc before the name (example: *New *York).
                           <br><br>
@@ -130,7 +130,7 @@
                     <div class="content-grid mdl-grid" id="leftdiv">
                         <div class="mdl-cell" id="cellleft">
                             <div class="mdl-textfield mdl-js-textfield" id="mlinputText">
-                                <textarea class="mdl-textfield__input" :value.sync="inputText" type="text" rows= "6" id="inputText" oninput="updateText()" ></textarea>
+                                <textarea class="mdl-textfield__input" :value.sync="inputText" type="text" rows= "15" id="inputText" oninput="updateText()" ></textarea>
                                 <label class="mdl-textfield__label" for="inputText">Write here...</label>
                             </div>
                         </div>
@@ -138,13 +138,6 @@
                         <div class="mdl-cell" id="cellright">
                             <div>
                                  <ul class="demo-list-item mdl-list" id="listofsugestions">
-                                  <!--li class="mdl-list__item">
-                                    <div class="mdl-textfield mdl-js-textfield">
-                                        <textarea class="mdl-textfield__input" type="text" rows= "1" id="sample5" ></textarea>
-                                        <label class="mdl-textfield__label" for="sample5">Button</label>
-                                    </div>
-                                  </li-->
-
                                 </ul>
                              </div>
                         </div>
