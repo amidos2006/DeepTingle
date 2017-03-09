@@ -61,12 +61,18 @@
         margin-right:auto;
     }
     
-     #tingleuni {
+    #tingleright {
+      color: #fff;
+      background:
+        url('dino-1-fulldream.jpg') center / cover no-repeat  ;
+      height: 500px;
+    }
+    
+     #tingleleft {
       color: #fff;
       background:
         url('images/unicorn-dream.png') center / cover no-repeat  ;
       height: 500px;
-        width:20%;
     }
     
     .triangle-border {
@@ -125,26 +131,130 @@
         </div>
         <main class="mdl-layout__content">
             <div id="p1main">
-                <div id="p1" class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
+                <div id="p1" >
+                    <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
+                    <br><br>
+                    This page may take several minutes to load. Please, be patient!
+                    <br><br>
+                    We're loading a full neural network in your broser (how cool is that?), and it may take a while.
+                </div>
             </div>
             <div id="maindiv">
-                <div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="descriptioncard">
-                  <!--div id="description"-->
-                      <div class="mdl-card__title mdl-card--colored">
-                        <h2 class="mdl-card__title-text">Tingle Translator is offline!</h2>
-                      </div>
-                      <div class="mdl-card__supporting-text">
-                          We're very sorry! An angry loch ness moster messed with Tingle Translator, but our unicorns are working hard to bring it back up!
-                          
-                          <div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="tingleuni"> </div>
-                      </div>
-                    <!--/div-->
-                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" onclick="hidetop()">
-                      <i class="material-icons">close</i>
-                    </button>
+                <div class="content-grid mdl-grid" id="maintop">
+                   <div class="mdl-cell mdl-cell--4-col">
+                        <div id="tingleleft"></div> 
+                    </div>
+                    <div class="mdl-cell mdl-cell--4-col">
+                         <div class="bubbleleft" >  
+                             <div class="tingledescription">
+                                
+                                <b>This is Tingle Translator</b>!
+                                 <br><br>
+                                 Copy your text below, and click on "Tinglefy" to make is as Tingle-ish as possible!
+                             </div>
+                        </div>
+                        
+                        <br>
+                        <br>
+                        
+                        <div class="bubbleright">
+                            <div class="tingledescription">
+                                If the words you typed are not in the Tingle-nary, Tinglefier will automatically change it to the nearest Tingle word. If you do not want this to happen (for example, for character names and places), add an asterisc before the name (example: *New *York).
+                               </div>
+                        </div>
+                        
+                        <br><br>
+                        
+                       
+                        
+                        
+                        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" onclick="hidetop()">
+                              <i class="material-icons">close</i>
+                            </button>
+
+                    </div>
+                    
+                    
+                    <div class="mdl-cell mdl-cell--4-col">
+                        <div id="tingleright"></div> 
+                    </div>
+                 </div>
+                    
+                
+            <!--form action="#"-->
+                <div class="content-grid mdl-grid" id="leftdiv">
+                    <div class="mdl-cell mdl-cell--4-col" id="cellleft">
+                        <div class="mdl-textfield mdl-js-textfield" id="mlinputText">
+                            <textarea class="mdl-textfield__input" :value.sync="inputText" type="text" rows= "15" id="inputText"></textarea>
+                            <label class="mdl-textfield__label" for="inputText">Write here...</label>
+                        </div>
+                    </div>
+                    
+                    <div class="mdl-cell mdl-cell--4-col" id="celloutput">
+                        <div class="mdl-textfield mdl-js-textfield" id="mloutputText">
+                            <textarea class="mdl-textfield__input" type="text" rows= "15" id="outputText"></textarea>
+                            <label class="mdl-textfield__label" for="outputText">And translation will show here!</label>
+                        </div>
+                    </div>
+                    
                 </div>
 
-           </div> 
+                    <div class="mdl-cell mdl-cell--2-col" id="tinglefydiv">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"  onclick="return tranlation()" id="tinglefy" >Tinglefy!</button>
+                    </div>
+
+                
+                <div class="content-grid mdl-grid">
+                    <div  class="mdl-cell" id="probid">
+                        <p >
+                            Probability of switching words to more frequent ones:
+                        <input class="mdl-slider mdl-js-slider" id="probslider"
+                               type="range" id="s1" min="0" max="100" value="100" oninput="changedProb(this.value)" onchange="changedProb(this.value)">
+                        </p>
+                     </div>
+                     <div class="mdl-tooltip" for="probid">Probability of translating words.<br>100% = all words that aren't frequent in Tingle text will change.<br>0% no word will change, no matter how infrequent it appears in Tingle text.</div>
+                     <div class="mdl-cell">
+                         <p style="width:300px">
+                         Frequency of how "tingle-like" the words are:"
+                        </p>
+                        <table>
+                          <tr>
+                              <div id="op1">
+                                 <label class="mdl-radio mdl-js-radio" for="option1" onclick="selected10()">
+                                    <input type="radio" id="option1" name="freq" class="mdl-radio__button" checked>
+                                    <span class="mdl-radio__label">Frequent</span>
+
+                                 </label>
+                                 </div>
+                             <div class="mdl-tooltip" for="op1">Use the words which appear 10 times more in Tingle text than in Wikipedia.</div>
+                          </tr><tr>
+                            <div id="op2">
+                             <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option2"  onclick="selected100()">
+                                <input type="radio" id="option2" name="freq" class="mdl-radio__button" >
+                                 <div class="mdl-tooltip" for="tooltip4">Share your content<br>using social media</div>
+                                <span class="mdl-radio__label">Very frequent</span>
+                             </label>
+                            </div>
+                             <div class="mdl-tooltip" for="op2">Use the words which appear 100 times more in Tingle text than in Wikipedia.</div>
+                            </tr>
+                        <tr>
+                           <div id="op3">
+                             <label class="mdl-radio mdl-js-radio" for="option3" onclick="selected1000()">
+                                <input type="radio" id="option3" name="freq" class="mdl-radio__button">
+                                <span class="mdl-radio__label">SUPER TINGLY!</span>
+                                 
+                             </label>      
+                           
+                            </div>
+                             <div class="mdl-tooltip" for="op3">Use the words which appear 1000 times more in Tingle text than in Wikipedia.</div>
+                          </tr>
+                       </table>   
+                    </div>
+                </div>
+            <!--/form-->
+
+            <!--div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="tingleright "> </div-->
+         </div>
         </main>
 
     </div>
