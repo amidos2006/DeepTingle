@@ -198,7 +198,7 @@
 <script>
     var inputText ="?";
     var SUBSTITUTE_ONLY_IF_FIRST_CHAR_MATCH = false;
-    var INPUT_SIZE = 5;
+    var INPUT_SIZE = 6;
     var AMOUNT = 50;
     var dicReady = false;
     var modelReady = false;
@@ -436,8 +436,7 @@
         counter++;
         remadeText = null;
         text = cleanInput(seed).split(" ");
-        var data = [0, 0, 0, 0, 0];  
-        INPUT_SIZE = 5;
+        var data = [0, 0, 0, 0, 0, 0];  
         
         last = 0;
         for(i = 0; i < data.length; i++) {
