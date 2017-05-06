@@ -1,5 +1,5 @@
 # DeepTingle
-Deep NN to generate stories to tingle your butt.
+A Deep NN used to generate stories which will tingle your butt.
 
 This repo contains all the code required to train DeepTingle or a similar system.
 This repo consists of the following:
@@ -13,7 +13,7 @@ This repo consists of the following:
 - **Preprocessing.ipynb:** is a python notebook used in preprocessing all chuck tingle files to be easier in training.
 - **Testing & Experimenting.ipynb:** is a python notebook used in testing different ideas before adding it to the main code.
 
-The core file is **DeepTingle Words.ipynb**. This code is used to train the current neural network used in the website. It contains all the different experiments used in the published paper. 
+The core file is **DeepTingle Words.ipynb**. This code is used to train the current neural network used in the website. It contains all the different experiments used in the published paper.
 
 If you are looking for trained models here is the link:
 - **Alphabet Based Model Weights:** http://www.deeptingle.net/deeptingleweights/CharacterBased.hdf5
