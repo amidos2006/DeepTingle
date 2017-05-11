@@ -75,6 +75,24 @@
     p {
         color:black;
     }
+    
+     #warning {
+        color:	 #990000;
+        
+    }
+    
+    .warning-card-wide {
+      width: 100%;
+      padding: 10px;
+      margin: auto;
+    border-color: red;
+    background:  #ffffff;
+        border-style: ridge;
+        color: 	 #990000;
+    font-size: 125%;
+
+    }
+    
 </style>
     
 <head>
@@ -124,11 +142,19 @@
                     <br><br>
                     This page may take several minutes to load. Please, be patient!
                     <br><br>
-                    We're loading a full neural network in your broser (how cool is that?), and it may take a while.
+                    We're loading a full neural network in your browser (how cool is that?), and it may take a while.
                 </div>
             </div>
             
             <div id="maindiv">
+                <div class="warning-card-wide" id="warning">
+                    Please, be patient! The system may not load the neural network correctly. Our unicorns are working hard to fix it!
+                    
+                    <br><br>
+                    
+                    If the page loads but doesn't work, please try again later, or try a different internet connection. We're very sorry for the trouble!
+                </div>
+                <br>
                 <div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="descriptioncard">
                 <!--div id="description"-->
                     <div class="mdl-card__title mdl-card--colored">
@@ -154,7 +180,7 @@
                          <div id="tinglefydiv">
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"  onclick="return createText()" id="tinglefy" >Generate!</button>
                         </div>
-                        <br><br>
+                        <br>
                         <p id="originalline" style="color:black;font:italic 12px Georgia,serif"></p>
                     </div>
                     <br>
@@ -618,6 +644,9 @@
             model: 'newmodel/model.json',
             weights: 'newmodel/model_weights.buf',
             metadata: 'newmodel/model_metadata.json'
+        },
+        headers: {
+            'Cache-Control': 'only-if-cached, max-age=31536000'
         },
         gpu: true
     });

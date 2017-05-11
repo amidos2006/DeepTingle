@@ -45,11 +45,20 @@
         padding:10px;
     }
     
-    #tingleright {
+    .target-area .mdl-card__media img {
+      width:100%;
+      height:100%;
+    }
+    #gitdiv {
       color: #fff;
-      background:
-        url('dino-1-fulldream.jpg') center / cover no-repeat  ;
-      height: 500px;
+     background: white;
+    height: 50px;
+    width: 50px;
+        
+    }
+    
+    .full-width {
+    width: 100%;
     }
 </style>
     
@@ -99,6 +108,23 @@
               <div class="mdl-card__supporting-text">
                   Deep Tingle is a reasearch project. Our goal is to use machine learning to develop an assistant tool that can help someone to write like an specific target: in this case, Chuck Tingle. This system was developed with GloVe, Keras and Keras-JS.
                   
+                  <br><br>
+                  
+                  <div class="content-grid mdl-grid full-width">
+                        <div >
+                            A <a href="http://arxiv.org/abs/1705.03557">scientific paper</a> will be presented at the International Conference for Computational Creativity 2017, and can be found <b><a href="http://arxiv.org/abs/1705.03557">here</a></b>. Our code is available on <a href="https://github.com/amidos2006/DeepTingle">GitHub</a> too!   
+                        </div>
+                        <div>
+                            <div class="mdl-card__media" id="gitdiv">
+                                <a href="https://github.com/amidos2006/DeepTingle">
+                                <img src="images/git.png" alt="GitHub repository!" style="width:50px;height:50px;">
+                                </a></div>
+                        </div>
+                        
+                    </div>
+                 
+                  
+                 
                   <br><br>
                   
                   Deep Tingle was developed by <a href="http://amidos-games.com/">Ahmed Khalifa</a>, <a href="https://twitter.com/gabbbarros">Gabriella A. B. Barros</a> and <a href="http://julian.togelius.com/">Julian Togelius</a>.

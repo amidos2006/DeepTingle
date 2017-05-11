@@ -57,6 +57,22 @@
         width:100%;
     }
     
+    #warning {
+        color:	 #990000;
+        
+    }
+    
+    .warning-card-wide {
+      width: 100%;
+      padding: 10px;
+      margin: auto;
+    border-color: red;
+    background:  #ffffff;
+        border-style: ridge;
+        color: 	 #990000;
+    font-size: 125%;
+
+    }
     
     #tingleright {
       color: #fff;
@@ -64,6 +80,7 @@
         url('dino-1-fulldream.jpg') center / cover no-repeat  ;
       height: 500px;
     }
+    
 </style>
     
 <head>
@@ -110,10 +127,19 @@
                     <br><br>
                     This page may take several minutes to load. Please, be patient!
                     <br><br>
-                    We're loading a full neural network in your broser (how cool is that?), and it may take a while.
+                    We're loading a full neural network in your browser (how cool is that?), and it may take a while.
                 </div>
             </div>
             <div id="maindiv">
+                <div class="warning-card-wide" id="warning">
+                    Please, be patient! The system may not load the neural network correctly. Our unicorns are working hard to fix it!
+                    
+                    <br><br>
+                    
+                    If the page loads but doesn't work, please try again later, or try a different internet connection. We're very sorry for the trouble!
+                </div>
+                <br>
+                
                 <div class="demo-card-wide mdl-card mdl-card--border mdl-shadow--3dp mdl-card--colored" id="descriptioncard">
                   <!--div id="description"-->
                       <div class="mdl-card__title mdl-card--colored">
@@ -131,20 +157,27 @@
                       <i class="material-icons">close</i>
                     </button>
                 </div>
-
+                <br>
+                
+                
                 <form action="#">
+                    
                     <div class="content-grid mdl-grid" id="leftdiv">
                         <div class="mdl-cell" id="cellleft">
                             <div class="mdl-textfield mdl-js-textfield" id="mlinputText">
+                                <div style="text-align:left">Write here:</div>
                                 <textarea class="mdl-textfield__input" :value.sync="inputText" type="text" rows= "15" id="inputText" oninput="updateText()" ></textarea>
-                                <label class="mdl-textfield__label" for="inputText">Write here...</label>
+                                <label class="mdl-textfield__label" for="inputText"></label>
                             </div>
                         </div>
 
                         <div class="mdl-cell" id="cellright">
                             <div>
+                                <div style="text-align:left">Suggestions appear here when you press space.</div>
                                  <ul class="demo-list-item mdl-list" id="listofsugestions">
                                 </ul>
+                                <br><br>
+                                <div style="text-align:left">Press <i>enter</i> or click on the suggestion to accept it.</div>
                              </div>
                         </div>
 
@@ -194,12 +227,12 @@
         modifiedString = modifiedString.replace(/:/g, " ");
         modifiedString = modifiedString.replace(/;/g, " ; "); 
         modifiedString = modifiedString.replace(/\?/g, " ? ");
-        modifiedString = modifiedString.replace(/–/g, " ");
-        modifiedString = modifiedString.replace(/—/g, " ");
-        modifiedString = modifiedString.replace(/‘/g, "'"); 
-        modifiedString = modifiedString.replace(/…/g, " . ");
-        modifiedString = modifiedString.replace(/ç/g, "c");
-        modifiedString = modifiedString.replace(/é/g, "e");
+        modifiedString = modifiedString.replace(/â€“/g, " ");
+        modifiedString = modifiedString.replace(/â€”/g, " ");
+        modifiedString = modifiedString.replace(/â€˜/g, "'"); 
+        modifiedString = modifiedString.replace(/â€¦/g, " . ");
+        modifiedString = modifiedString.replace(/Ã§/g, "c");
+        modifiedString = modifiedString.replace(/Ã©/g, "e");
         modifiedString = modifiedString.trim();
         var newString = modifiedString.replace(/  /g," ");
         while(!(newString === modifiedString)) {
@@ -302,7 +335,7 @@
             substituteInTextArea(splitted[splitted.length - 1],newWord);
             splitted[splitted.length - 1] = newWord;
             
-            var data = [0, 0, 0, 0, 0];
+            var data = [0, 0, 0, 0, 0, 0];
             
             var i=0;
             var last = 0;
@@ -503,6 +536,9 @@
             model: 'newmodel/model.json',
             weights: 'newmodel/model_weights.buf',
             metadata: 'newmodel/model_metadata.json'
+        },
+        headers: {
+            'Cache-Control': 'only-if-cached, max-age=31536000'
         },
         gpu: true
     });
