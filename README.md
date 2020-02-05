@@ -2,10 +2,6 @@
 	<img height="300px" src="DT_logo.png"/>
 </p>
 
-<h1 align="center">
-	DeepTingle
-</h1>
-
 <p align="center">
   <b>Current Framework Version: 0.4.0</b>
 </p>
