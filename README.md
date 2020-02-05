@@ -2,10 +2,6 @@
 	<img height="300px" src="DT_logo.png"/>
 </p>
 
-<p align="center">
-  <b>Current Framework Version: 0.4.0</b>
-</p>
-
 A Deep NN used to generate stories which will tingle your butt. To test the system visit http://www.deeptingle.net.
 
 This repo contains all the code required to train DeepTingle or a similar system.
