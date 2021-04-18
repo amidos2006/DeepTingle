@@ -2,7 +2,7 @@
 	<img height="300px" src="DT_logo.png"/>
 </p>
 
-A Deep NN used to generate stories which will tingle your butt. To test the system visit http://www.deeptingle.net.
+A Deep NN used to generate stories which will tingle your butt. [Test the system here](http://akhalifa.com/deeptingle/?fbclid=IwAR3iMR2MvcsDulLlDvHm6DSciO2oOZCZtddYnNf1PeVwEhX8Q871I7lBvFM).
 
 This repo contains all the code required to train DeepTingle or a similar system.
 This repo consists of the following:
